@@ -56,12 +56,14 @@ Live Demo: :point_right: [here]()
 ## How Can Get Started
 
 - Using NetBeans 8.2 IDE to start project easier
-- After open project in IDE, import JSTL 1.2.1 library that support by IDE
+- After open project in IDE, import  SQL JDBC, JSTL 1.2 library that support by IDE
 - Run the [`Database-BookStore.sql`](https://github.com/haibeu2901/BookStore/blob/master/Database-BookStore.sql) script 
 - Replace some database connection imformation in [`DBUtils.java`](https://github.com/haibeu2901/BookStore/blob/master/src/java/utils/DBUtils.java) file
 
 ## Learn More
 - [Manual Deploying Tomcat Server](https://github.com/haibeu2901/BookStore/tree/master/Manual%20Deploying%20Tomcat%20Server)
+- [SQL JDBC Library](https://github.com/haibeu2901/BookStore/blob/master/ExtendLibraries/sqljdbc4.jar)
+- [JSTL1.2 Library](https://github.com/haibeu2901/BookStore/blob/master/ExtendLibraries/jstl-1.2.jar)
 
 ## License & Copyright
 &copy; 2025 Duc Hai Doan haibeu2901 Licensed under the [GPL-3.0 LICENSE](https://github.com/haibeu2901/BookStore/blob/master/LICENSE).
