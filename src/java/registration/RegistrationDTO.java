@@ -14,16 +14,25 @@ public class RegistrationDTO {
     private String username;
     private String password;
     private String firstName;
+    private String middleName;
     private String lastName;
     private boolean role;
 
     public RegistrationDTO() {
     }
 
-    public RegistrationDTO(String username, String password, String firstName, String lastName, boolean role) {
+    public RegistrationDTO(String username, String password, String firstName, String middleName, String lastName, boolean role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
+    public RegistrationDTO(String username, String password, String lastName, boolean role) {
+        this.username = username;
+        this.password = password;
         this.lastName = lastName;
         this.role = role;
     }
@@ -52,6 +61,14 @@ public class RegistrationDTO {
         this.firstName = firstName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -70,7 +87,7 @@ public class RegistrationDTO {
 
     @Override
     public String toString() {
-        return "RegistrationDTO{" + "username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + '}';
+        return "RegistrationDTO{" + "username=" + username + ", password=" + password + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + ", role=" + role + '}';
     }
 
 }
