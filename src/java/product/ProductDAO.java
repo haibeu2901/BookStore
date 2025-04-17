@@ -5,10 +5,19 @@
  */
 package product;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  *
  * @author beu29
  */
-public class ProductDAO {
+public class ProductDAO implements Serializable{
+    
+    private List<ProductDTO> productList;
+
+    public List<ProductDTO> getProductList() {
+        return productList;
+    }
     
 }
