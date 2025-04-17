@@ -70,5 +70,44 @@ public class ProductDAO implements Serializable {
             }
         }
     }
+    
+    public ProductDTO getProductBySKU(String SKU) 
+        throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "Select Name, Price, Description, Quantity "
+                        + "From Product "
+                        + "Where SKU = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, SKU);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    String name = rs.getString("Name");
+                    BigDecimal price = rs.getBigDecimal("Price");
+                    String description = rs.getString("Description");
+                    int quantity = rs.getInt("Quantity");
+                    
+                    ProductDTO result = new ProductDTO(SKU, name, price, description, quantity);
+                    return result;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
+    }
 
 }
