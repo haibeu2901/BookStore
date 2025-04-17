@@ -78,7 +78,7 @@ public class ProductDAO implements Serializable {
         ResultSet rs = null;
         
         try {
-            con = DBHelpers.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "Select Name, Price, Description, Quantity "
                         + "From Product "
@@ -96,6 +96,8 @@ public class ProductDAO implements Serializable {
                     return result;
                 }
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (rs != null) {
                 rs.close();
