@@ -68,7 +68,7 @@ public class OrderDAO implements Serializable {
         ResultSet rs = null;
 
         try {
-            con = DBHelpers.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "Select Name, Address, Date, Total "
                         + "From Orders "
@@ -87,6 +87,8 @@ public class OrderDAO implements Serializable {
                     return dto;
                 }
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (rs != null) {
                 rs.close();
