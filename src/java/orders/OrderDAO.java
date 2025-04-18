@@ -6,6 +6,8 @@
 package orders;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 
 /**
  *
