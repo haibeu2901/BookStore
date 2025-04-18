@@ -11,7 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
+import utils.DBUtils;
 
 /**
  *
@@ -28,7 +31,7 @@ public class OrderDAO implements Serializable {
             ResultSet rs = null;
 
             try {
-                con = DBHelpers.makeConnection();
+                con = DBUtils.getConnection();
                 if (con != null) {
                     String sql = "Insert Into Orders(Name, Address, Total) "
                             + "Output inserted.OrderID, inserted.Date "
@@ -43,6 +46,8 @@ public class OrderDAO implements Serializable {
                         return orderID;
                     }
                 } //end if con connect success
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 if (rs != null) {
                     rs.close();
