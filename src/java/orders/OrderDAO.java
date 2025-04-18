@@ -5,10 +5,14 @@
  */
 package orders;
 
+import java.io.Serializable;
+
 /**
  *
  * @author beu29
  */
-public class OrderDAO {
+public class OrderDAO implements Serializable{
+    
+    
     
 }
