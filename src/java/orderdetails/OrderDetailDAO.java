@@ -6,6 +6,7 @@
 package orderdetails;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,10 @@ import java.io.Serializable;
  */
 public class OrderDetailDAO implements Serializable{
     
-    
+    private List<OrderDetailDTO> orderDetailsList;
+
+    public List<OrderDetailDTO> getOrderDetailsList() {
+        return orderDetailsList;
+    }
     
 }
