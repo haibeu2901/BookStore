@@ -12,8 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import product.ProductDTO;
+import utils.DBUtils;
 
 /**
  *
@@ -33,7 +36,7 @@ public class OrderDetailDAO implements Serializable{
         PreparedStatement stm = null;
         
         try {
-            con = DBHelpers.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 con.setAutoCommit(false); //*****
                 String sql = "Insert Into OrderDetails"
@@ -75,6 +78,8 @@ public class OrderDetailDAO implements Serializable{
             if (con != null) {
                 con.rollback();
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally {
             if (stm != null) {
