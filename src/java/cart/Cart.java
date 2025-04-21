@@ -87,4 +87,20 @@ public class Cart implements Serializable {
         }
     }
 
+    public Map<ProductDTO, Integer> showCheckedItems(String[] SKU)
+            throws SQLException, NamingException {
+        if (this.items == null) {
+            return null;
+        }
+
+        Map<ProductDTO, Integer> list = new HashMap<>();
+        ProductDAO dao = new ProductDAO();
+        ProductDTO dto = new ProductDTO();
+        for (String sku : SKU) {
+            dto = dao.getProductBySKU(sku);
+            list.put(dto, items.get(dto));
+        }
+        return list;
+    }
+
 }
