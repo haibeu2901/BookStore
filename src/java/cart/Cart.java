@@ -6,7 +6,11 @@
 package cart;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
+import javax.naming.NamingException;
+import product.ProductDAO;
 import product.ProductDTO;
 
 /**
