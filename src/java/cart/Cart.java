@@ -57,4 +57,21 @@ public class Cart implements Serializable {
         this.items.put(dto, quantity);
     }
 
+    public void removeItemBySKU(String SKU)
+            throws SQLException, NamingException {
+        //1. checking items has existed
+        if (this.items == null) {
+            return;
+        }
+        //2. checking item existed in cart
+        ProductDAO dao = new ProductDAO();
+        ProductDTO dto = dao.getProductBySKU(SKU);
+        if (this.items.containsKey(dto)) {
+            this.items.remove(dto);
+            if (this.items.isEmpty()) {
+                this.items = null;
+            }
+        }
+    }
+
 }
