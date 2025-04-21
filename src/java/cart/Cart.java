@@ -74,4 +74,17 @@ public class Cart implements Serializable {
         }
     }
 
+    public void removeItemsForCheckOut(ProductDTO dto) {
+        if (this.items == null) {
+            return;
+        }
+
+        if (this.items.containsKey(dto)) {
+            this.items.remove(dto);
+            if (this.items.isEmpty()) {
+                this.items = null;
+            }
+        }
+    }
+
 }
