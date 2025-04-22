@@ -5,6 +5,7 @@
  */
 package listener;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -24,6 +25,21 @@ public class NewServletListener implements ServletContextListener {
         loadAuthenticationFile(context);
         context.log("Load authentication-map success!!!");
         context.log("Deployed!!!!!");
+    }
+    
+    private void loadSiteMap(ServletContext context) {
+        String siteMapLocation = context.getInitParameter("SITE_MAP_LOCATION");
+        InputStream is = null;
+        if (siteMapLocation != null) {
+            Properties properties = new Properties();
+            is = context.getResourceAsStream(siteMapLocation);
+            try {
+                properties.load(is);
+                context.setAttribute("SITE_MAP", properties);
+            } catch (IOException ex) {
+                context.log("NewServletListener_IO: " + ex.getMessage());
+            }
+        }//end siteMapLocation is existed
     }
 
     @Override
