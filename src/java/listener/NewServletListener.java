@@ -26,7 +26,7 @@ public class NewServletListener implements ServletContextListener {
         context.log("Load authentication-map success!!!");
         context.log("Deployed!!!!!");
     }
-    
+
     private void loadSiteMap(ServletContext context) {
         String siteMapLocation = context.getInitParameter("SITE_MAP_LOCATION");
         InputStream is = null;
@@ -40,6 +40,46 @@ public class NewServletListener implements ServletContextListener {
                 context.log("NewServletListener_IO: " + ex.getMessage());
             }
         }//end siteMapLocation is existed
+    }
+
+    private void loadAuthenticationFile(ServletContext context) {
+        String authenticationFileLocation = context.getInitParameter("AUTHENTICATION");
+        String pathAuthFile = context.getRealPath("/" + authenticationFileLocation);
+
+        //ReadFile
+        File f = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        List<String> listAuthFile = new ArrayList<>();
+
+        try {
+            f = new File(pathAuthFile);
+            fr = new FileReader(f);
+            br = new BufferedReader(fr);
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                listAuthFile.add(line);
+            }
+
+            context.setAttribute("AUTH_FILE", listAuthFile);
+        } catch (FileNotFoundException ex) {
+            context.log("NewServletListener_FileNotFound: " + ex.getMessage());
+        } catch (IOException ex) {
+            context.log("NewServletListener_IO: " + ex.getMessage());
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (IOException ex) {
+                context.log("NewServletListener_IO: " + ex.getMessage());
+            }
+        }
     }
 
     @Override
