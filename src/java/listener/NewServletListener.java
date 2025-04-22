@@ -28,6 +28,7 @@ public class NewServletListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ServletContext context = sce.getServletContext();
+        context.log("Undeploying.....");
     }
 }
