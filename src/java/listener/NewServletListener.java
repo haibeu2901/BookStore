@@ -17,7 +17,13 @@ public class NewServletListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ServletContext context = sce.getServletContext();
+        context.log("Deploying.....");
+        loadSiteMap(context);
+        context.log("Load site-map success!!!");
+        loadAuthenticationFile(context);
+        context.log("Load authentication-map success!!!");
+        context.log("Deployed!!!!!");
     }
 
     @Override
