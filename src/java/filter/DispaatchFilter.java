@@ -103,13 +103,19 @@ public class DispaatchFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         
+        String uri = req.getRequestURI();
+        String url;
+        
+        Throwable problem = null;
+        
         if (debug) {
             log("DispaatchFilter:doFilter()");
         }
         
         doBeforeProcessing(request, response);
         
-        Throwable problem = null;
+        
+        
         try {
             chain.doFilter(request, response);
         } catch (Throwable t) {
