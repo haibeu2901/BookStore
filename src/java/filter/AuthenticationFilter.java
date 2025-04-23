@@ -109,6 +109,38 @@ public class AuthenticationFilter implements Filter {
         
         doBeforeProcessing(request, response);
         
+        try {
+            //get auth list file
+            ServletContext context = req.getServletContext();
+            List<String> authenFileList 
+                    = (List<String>)context.getAttribute("AUTH_FILE");
+            
+            //get resource name
+            int lastIndex = uri.lastIndexOf("/");
+            String resource = uri.substring(lastIndex + 1);
+            
+            //check session
+            HttpSession session = req.getSession(false);
+            boolean isLogin = session != null && session.getAttribute("USER") != null;
+            if (resource.equals("loginPage")) {
+                if (isLogin) {
+                    res.sendRedirect("searchPage");
+                } else {
+                    chain.doFilter(request, response);
+                }
+            } else if (authenFileList.contains(resource)) {
+                if (isLogin) {
+                    chain.doFilter(request, response);
+                } else {
+                    res.sendRedirect("loginPage");
+                }
+            } else {
+                chain.doFilter(request, response);
+            }
+        } catch (Throwable t) {
+            log(t.getMessage());
+        }
+        
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
