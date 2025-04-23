@@ -114,7 +114,26 @@ public class DispaatchFilter implements Filter {
         
         doBeforeProcessing(request, response);
         
-        
+        try {
+            //get site map
+            ServletContext context = request.getServletContext();
+            Properties siteMap = 
+                    (Properties) context.getAttribute("SITE_MAP");
+            //get resource name
+            int lastIndex = uri.lastIndexOf("/");
+            String resource = uri.substring(lastIndex + 1);
+            //get site mapping
+            url = siteMap.getProperty(resource);
+            if (url != null) {
+                RequestDispatcher rd = req.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } else {
+                res.sendError(404);
+//                chain.doFilter(request, response);
+            }
+        } catch (Throwable t) {
+            log(t.getMessage());
+        }
         
         try {
             chain.doFilter(request, response);
