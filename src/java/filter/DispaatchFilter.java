@@ -132,18 +132,19 @@ public class DispaatchFilter implements Filter {
 //                chain.doFilter(request, response);
             }
         } catch (Throwable t) {
+            problem = t;
             log(t.getMessage());
         }
         
-        try {
-            chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
+//        try {
+//            chain.doFilter(request, response);
+//        } catch (Throwable t) {
+//            // If an exception is thrown somewhere down the filter chain,
+//            // we still want to execute our after processing, and then
+//            // rethrow the problem after that.
+//            problem = t;
+//            t.printStackTrace();
+//        }
         
         doAfterProcessing(request, response);
 
