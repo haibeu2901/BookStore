@@ -112,6 +112,8 @@ public class AuthenticationFilter implements Filter {
             log("AuthenticationFilter:doFilter()");
         }
         
+        Throwable problem = null;
+        
         doBeforeProcessing(request, response);
         
         try {
@@ -143,10 +145,10 @@ public class AuthenticationFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (Throwable t) {
+            problem = t;
             log(t.getMessage());
         }
         
-//        Throwable problem = null;
 //        try {
 //            chain.doFilter(request, response);
 //        } catch (Throwable t) {
