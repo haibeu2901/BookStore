@@ -33,4 +33,35 @@ public class ApplicationConstant {
         public static final String CONFIRM_CHECK_OUT_CONTROLLER = "confirmCheckOutAction";
     }
 
+    // Start up - Login - Logout - Signup
+    public class StartUpApp {
+
+        public static final String LOGIN_PAGE = "loginPage";
+        public static final String SEARCH_PAGE = "searchPage";
+    }
+
+    public class LoginFeatures {
+
+        public static final String INVALID = "invalid";
+        public static final String SEARCH_PAGE = "searchPage";
+    }
+
+    public class LogoutFeatures {
+
+        public static final String LOGIN_PAGE = "loginPage";
+    }
+
+    public class SignUpFeatures {
+
+        public static final String SIGN_UP_JSP = "signUpJSP";
+        public static final String LOGIN_PAGE = "loginPage";
+        public static final String PASSWORD_REGEX = "passwordRegex";
+        public static final String USERNAME_LENGTH_VIOLENT_NOTICE = "usernameLengthViolentNotice";
+        public static final String PASSWORD_VIOLENT_NOTICE = "passwordViolentNotice";
+        public static final String CONFIRM_NOTMATCH_NOTICE = "confirmNotMatchNotice";
+        public static final String FIRSTNAME_LENGTH_VIOLENT_NOTICE = "firstNameLengthViolentNotice";
+        public static final String MIDDLENAME_LENGTH_VIOLENT_NOTICE = "middlenameLengthViolentNotice";
+        public static final String LASTNAME_LENGTH_VIOLENT_NOTICE = "lastnameLengthViolentNotice";
+    }
+
 }
