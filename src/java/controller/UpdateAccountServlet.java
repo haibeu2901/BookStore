@@ -7,11 +7,21 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Properties;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import registration.RegistrationDAO;
+import registration.RegistrationDTO;
+import registration.RegistrationUpdateError;
+import utils.ApplicationConstant;
 
 /**
  *
@@ -49,22 +59,22 @@ public class UpdateAccountServlet extends HttpServlet {
         Properties properties = (Properties)context.getAttribute("SITE_MAP");
         
         String url = properties.getProperty(
-                        MyApplicationConstant.UpdateFeatures.ERROR_PAGE);
+                        ApplicationConstant.UpdateFeatures.ERROR_PAGE);
         
         try {
             HttpSession session = request.getSession(false);
             
             if (session == null) {
                 url = properties.getProperty(
-                        MyApplicationConstant.UpdateFeatures.LOGIN_PAGE);
+                        ApplicationConstant.UpdateFeatures.LOGIN_PAGE);
                 return;
             }
             
             if (!password.trim().matches(properties.getProperty(
-                    MyApplicationConstant.UpdateFeatures.PASSWORD_REGEX))) {
+                    ApplicationConstant.UpdateFeatures.PASSWORD_REGEX))) {
                 foundErr = true;
                 errors.setPasswordViolent(properties.getProperty(
-                    MyApplicationConstant.UpdateFeatures.PASSWORD_VIOLENT_NOTICE));
+                    ApplicationConstant.UpdateFeatures.PASSWORD_VIOLENT_NOTICE));
             }
             
             if (foundErr) {
@@ -73,7 +83,7 @@ public class UpdateAccountServlet extends HttpServlet {
 //                        + "?btAction=Search"
 //                        + "&txtSearchValue=" + searchValue;
                 url = properties.getProperty(
-                        MyApplicationConstant.DeleteFeatures.SEARCH_FULLNAME_CONTROLLER) 
+                        ApplicationConstant.DeleteFeatures.SEARCH_FULLNAME_CONTROLLER) 
                         + "?txtSearchValue=" + searchValue;
                 return;
             }
@@ -94,7 +104,7 @@ public class UpdateAccountServlet extends HttpServlet {
 //                        + "?btAction=Search"
 //                        + "&txtSearchValue=" + searchValue;
                 url = properties.getProperty(
-                        MyApplicationConstant.DeleteFeatures.SEARCH_FULLNAME_CONTROLLER) 
+                        ApplicationConstant.DeleteFeatures.SEARCH_FULLNAME_CONTROLLER) 
                         + "?txtSearchValue=" + searchValue;
             }
             
