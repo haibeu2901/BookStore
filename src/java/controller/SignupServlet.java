@@ -7,11 +7,22 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import registration.RegistrationCreateError;
+import registration.RegistrationDAO;
+import registration.RegistrationDTO;
+import utils.ApplicationConstant;
 
 /**
  *
@@ -30,7 +41,7 @@ public class SignupServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         request.setCharacterEncoding("UTF-8");
@@ -48,39 +59,39 @@ public class SignupServlet extends HttpServlet {
         Properties properties = (Properties) context.getAttribute("SITE_MAP");
 
         String url = properties.getProperty(
-                MyApplicationConstant.SignUpFeatures.SIGN_UP_JSP);
+                ApplicationConstant.SignUpFeatures.SIGN_UP_JSP);
 
         try {
             //1. Check user constraint validation
             if (username.trim().length() < 6 || username.trim().length() > 30) {
                 foundErr = true;
                 errors.setUsernameLengthViolent(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.USERNAME_LENGTH_VIOLENT_NOTICE));
+                        ApplicationConstant.SignUpFeatures.USERNAME_LENGTH_VIOLENT_NOTICE));
             }
             if (!password.trim().matches(properties.getProperty(
-                    MyApplicationConstant.SignUpFeatures.PASSWORD_REGEX))) {
+                    ApplicationConstant.SignUpFeatures.PASSWORD_REGEX))) {
                 foundErr = true;
                 errors.setPasswordViolent(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.PASSWORD_VIOLENT_NOTICE));
+                        ApplicationConstant.SignUpFeatures.PASSWORD_VIOLENT_NOTICE));
             } else if (!password.trim().equals(confirm.trim())) {
                 foundErr = true;
                 errors.setConfirmNotMatch(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.CONFIRM_NOTMATCH_NOTICE));
+                        ApplicationConstant.SignUpFeatures.CONFIRM_NOTMATCH_NOTICE));
             }
             if (firstname.trim().length() < 2 || firstname.trim().length() > 20) {
                 foundErr = true;
                 errors.setFirstNameLengthViolent(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.FIRSTNAME_LENGTH_VIOLENT_NOTICE));
+                        ApplicationConstant.SignUpFeatures.FIRSTNAME_LENGTH_VIOLENT_NOTICE));
             }
             if (middlename.trim().length() < 0 || middlename.trim().length() > 20) {
                 foundErr = true;
                 errors.setMiddleNameLengthViolent(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.MIDDLENAME_LENGTH_VIOLENT_NOTICE));
+                        ApplicationConstant.SignUpFeatures.MIDDLENAME_LENGTH_VIOLENT_NOTICE));
             }
             if (lastname.trim().length() < 2 || lastname.trim().length() > 20) {
                 foundErr = true;
                 errors.setLastNameLengthViolent(properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.LASTNAME_LENGTH_VIOLENT_NOTICE));
+                        ApplicationConstant.SignUpFeatures.LASTNAME_LENGTH_VIOLENT_NOTICE));
             }
             //1.1 If so, notify to user correct them
             if (foundErr) {
@@ -97,7 +108,7 @@ public class SignupServlet extends HttpServlet {
             //2. If task is success, redirect to Login Page
             if (result) {
                 url = properties.getProperty(
-                        MyApplicationConstant.SignUpFeatures.LOGIN_PAGE);
+                        ApplicationConstant.SignUpFeatures.LOGIN_PAGE);
             } //end if insert is success
         } catch (SQLException ex) {
             String msg = ex.getMessage();
@@ -127,7 +138,11 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -141,7 +156,11 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
