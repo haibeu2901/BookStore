@@ -63,5 +63,34 @@ public class ApplicationConstant {
         public static final String MIDDLENAME_LENGTH_VIOLENT_NOTICE = "middlenameLengthViolentNotice";
         public static final String LASTNAME_LENGTH_VIOLENT_NOTICE = "lastnameLengthViolentNotice";
     }
+    
+    // Search - Delete - Update Account
+    public class SearchFeatures {
+        
+        public static final String LOGIN_PAGE = "loginPage"; 
+        public static final String SEARCH_PAGE = "searchPage";
+    }
+    
+    public class ConfirmDeleteFetures {
+
+        public static final String ERROR_PAGE = "error";
+        public static final String LOGIN_PAGE = "loginPage";
+        public static final String CONFIRM_DELETE_PAGE = "confirmDeletePage";
+    }
+    
+    public class DeleteFeatures {
+        
+        public static final String ERROR_PAGE = "error";
+        public static final String LOGIN_PAGE = "loginPage";      
+        public static final String SEARCH_FULLNAME_CONTROLLER = "searchAction";
+    }
+    
+    public class UpdateFeatures {
+        public static final String ERROR_PAGE = "error";
+        public static final String LOGIN_PAGE = "loginPage";
+        public static final String SEARCH_FULLNAME_CONTROLLER = "searchAction";
+        public static final String PASSWORD_REGEX = "passwordRegex";
+        public static final String PASSWORD_VIOLENT_NOTICE = "passwordViolentNotice";
+    }
 
 }
