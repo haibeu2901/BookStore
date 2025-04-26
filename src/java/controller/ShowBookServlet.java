@@ -7,11 +7,22 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import product.ProductDAO;
+import product.ProductDTO;
+import utils.ApplicationConstant;
 
 /**
  *
@@ -30,7 +41,7 @@ public class ShowBookServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -38,7 +49,7 @@ public class ShowBookServlet extends HttpServlet {
         Properties properties = (Properties) context.getAttribute("SITE_MAP");
 
         String url = properties.getProperty(
-                MyApplicationConstant.ShowBookFeatures.LOGIN_PAGE);
+                ApplicationConstant.ShowBookFeatures.LOGIN_PAGE);
         try {
             ProductDAO dao = new ProductDAO();
             dao.showBookList();
@@ -46,7 +57,7 @@ public class ShowBookServlet extends HttpServlet {
             List<ProductDTO> dto = dao.getProductList();
             request.setAttribute("BOOK_LIST", dto);
             url = properties.getProperty(
-                    MyApplicationConstant.ShowBookFeatures.SHOPPING_PAGE);
+                    ApplicationConstant.ShowBookFeatures.SHOPPING_PAGE);
         } catch (SQLException ex) {
             log("BuyBookServlet_SQL: " + ex.getMessage());
         } catch (NamingException ex) {
@@ -70,7 +81,13 @@ public class ShowBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ShowBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(ShowBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -84,7 +101,13 @@ public class ShowBookServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ShowBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(ShowBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
