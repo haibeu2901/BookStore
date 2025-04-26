@@ -92,5 +92,42 @@ public class ApplicationConstant {
         public static final String PASSWORD_REGEX = "passwordRegex";
         public static final String PASSWORD_VIOLENT_NOTICE = "passwordViolentNotice";
     }
+    
+    // Shopping - Add Book - Remove Book - Check Out
+    public class ShowBookFeatures {
+        
+        public static final String LOGIN_PAGE = "loginPage";
+        public static final String SHOPPING_PAGE = "shoppingPage";
+    }
+    
+    public class AddBookToCartFeatures {
+
+        public static final String ERROR_PAGE = "error";
+        public static final String SHOW_BOOK_CONTROLLER = "showBookAction";
+    }
+    
+    public class CartFeatures {
+        
+        public static final String ERROR_PAGE = "error";
+        public static final String REMOVE_BOOK_FROM_CART = "removeBookFromCartAction";
+        public static final String CONFIRM_CHECK_OUT_CONTROLLER = "confirmCheckOutAction";
+    }
+    
+    public class RemoveBookFeatures {
+        
+        public static final String VIEW_CART_PAGE = "viewCartPage";        
+    }
+    
+    public class ConfirmCheckOutFeatures {
+
+        public static final String VIEW_CART_PAGE = "viewCartPage";
+        public static final String CONFIRM_CHECK_OUT_PAGE = "confirmCheckOutPage";
+    }
+
+    public class CheckOutFeatures {
+
+        public static final String CONFIRM_CHECK_OUT_PAGE = "confirmCheckOutPage";
+        public static final String CHECK_OUT_SUCCESS_PAGE = "checkOutSuccessPage";
+    }
 
 }
