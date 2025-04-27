@@ -7,11 +7,15 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.ApplicationConstant;
 
 /**
  *
@@ -40,15 +44,15 @@ public class CartServlet extends HttpServlet {
         Properties properties = (Properties)context.getAttribute("SITE_MAP");
         
         String url = properties.getProperty(
-                        MyApplicationConstant.CartFeatures.ERROR_PAGE);
+                        ApplicationConstant.CartFeatures.ERROR_PAGE);
         
         try {
             if (action.equals("Remove Selected Books")) {
                 url = properties.getProperty(
-                        MyApplicationConstant.CartFeatures.REMOVE_BOOK_FROM_CART);
+                        ApplicationConstant.CartFeatures.REMOVE_BOOK_FROM_CART);
             } else if (action.equals("Check Out Selected Books")) {
                 url = properties.getProperty(
-                        MyApplicationConstant.CartFeatures.CONFIRM_CHECK_OUT_CONTROLLER);
+                        ApplicationConstant.CartFeatures.CONFIRM_CHECK_OUT_CONTROLLER);
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
