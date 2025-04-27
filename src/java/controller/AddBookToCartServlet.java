@@ -5,13 +5,20 @@
  */
 package controller;
 
+import cart.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utils.ApplicationConstant;
 
 /**
  *
@@ -30,7 +37,7 @@ public class AddBookToCartServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -53,7 +60,7 @@ public class AddBookToCartServlet extends HttpServlet {
             //6. Cust goes to shopping
 //            url = "DispatchServlet"
 //                    + "?btAction=Buy";
-            url = MyApplicationConstant.AddBookToCartFeatures.SHOW_BOOK_CONTROLLER;
+            url = ApplicationConstant.AddBookToCartFeatures.SHOW_BOOK_CONTROLLER;
         } catch (SQLException ex) {
             log("AddBookToCartServlet_SQL: " + ex.getMessage());
         } catch (NamingException ex) {
@@ -76,7 +83,13 @@ public class AddBookToCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBookToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(AddBookToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -90,7 +103,13 @@ public class AddBookToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddBookToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(AddBookToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
