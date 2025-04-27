@@ -32,17 +32,35 @@ public class AddBookToCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddBookToCartServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddBookToCartServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        
+        String url = ApplicationConstant.AddBookToCartFeatures.ERROR_PAGE;
+        
+        try {
+            //1. Cust goes to cart place
+            HttpSession session = request.getSession();
+            //2. Cust takes their --> attributes
+            Cart cart = (Cart)session.getAttribute("CART");
+            if (cart == null) {
+                cart = new Cart();
+            }//cart is not existed --> create cart
+            //3. Cust takes book item --> parameter
+            String SKU = request.getParameter("pk");
+            //4. Cust drops item down
+            cart.addItemToCart(SKU);
+            //5. Update to cart place
+            session.setAttribute("CART", cart);
+            //6. Cust goes to shopping
+//            url = "DispatchServlet"
+//                    + "?btAction=Buy";
+            url = MyApplicationConstant.AddBookToCartFeatures.SHOW_BOOK_CONTROLLER;
+        } catch (SQLException ex) {
+            log("AddBookToCartServlet_SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            log("AddBookToCartServlet_Naming: " + ex.getMessage());
+        } finally {
+            response.sendRedirect(url);
+            out.close();
         }
     }
 
