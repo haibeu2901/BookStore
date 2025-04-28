@@ -44,7 +44,7 @@ public class RemoveBookFromCartServlet extends HttpServlet {
             //Muốn remove được thì session phải tồn tại
             if (session != null) {
                 //2. Cust takes his/her cart
-                CartObject cart = (CartObject)session.getAttribute("CART");
+                Cart cart = (Cart)session.getAttribute("CART");
                 if (cart != null) {
                     //3. Cust gets all items
                     Map<ProductDTO, Integer> items = cart.getItems();
@@ -72,7 +72,7 @@ public class RemoveBookFromCartServlet extends HttpServlet {
 //                    + "?btAction=Buy";
 //            String urlWriting = "DispatchServlet"
 //                    + "?btAction=View Your Cart";
-            String url = MyApplicationConstant.RemoveBookFeatures.VIEW_CART_PAGE;
+            String url = ApplicationConstant.RemoveBookFeatures.VIEW_CART_PAGE;
             response.sendRedirect(url);
             out.close();
         }
