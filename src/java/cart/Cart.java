@@ -6,10 +6,16 @@
 package cart;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.naming.NamingException;
+import orderdetails.OrderDetailDAO;
+import orderdetails.OrderDetailDTO;
+import orders.OrderDAO;
 import product.ProductDAO;
 import product.ProductDTO;
 
@@ -100,6 +106,69 @@ public class Cart implements Serializable {
             dto = dao.getProductBySKU(sku);
             list.put(dto, items.get(dto));
         }
+        return list;
+    }
+    
+    public int checkOutItemsOfCart(String name, String address, String total, 
+            Map<ProductDTO, Integer> checkedItems) 
+        throws SQLException, NamingException{
+        if (this.items == null) {
+            return -1;
+        }
+        
+        OrderDAO ordersDAO = new OrderDAO();
+        int orderID = ordersDAO.createNewOrder(name, address, total);
+        
+        if (orderID > 0) {
+            OrderDetailDAO orderDetailsDAO = new OrderDetailDAO();
+            boolean result = 
+                    orderDetailsDAO.createOrderDetails(orderID, checkedItems);
+            if (result) {
+                return orderID;
+            }
+        }
+        return -1;
+    }
+    
+    public int getQuantityBySKU(String SKU) {
+        if (SKU == null || SKU.trim().isEmpty()) {
+            return 0;
+        }
+        
+        if (this.items == null) {
+            return 0;
+        }
+        
+        int quantity = 0;
+        
+        for (ProductDTO dto : this.items.keySet()) {
+            if (SKU.equals(dto.getSKU())) {
+                quantity = this.items.get(dto);
+                return quantity;
+            }
+        }
+        
+        return 0;
+    }
+    
+    public List<OrderDetailDTO> addItemsToOrderDetailsDTO
+        (Map<ProductDTO, Integer> checkedItems, int orderID) {
+        List<OrderDetailDTO> list = new ArrayList<>();
+        
+        for (ProductDTO productDTO : checkedItems.keySet()) {
+            String SKU = productDTO.getSKU();
+            String name = productDTO.getName();
+            BigDecimal price = productDTO.getPrice();
+            int quantity = checkedItems.get(productDTO);
+            BigDecimal total;
+            total = price.multiply(new BigDecimal(quantity));
+            
+            OrderDetailDTO orderDetailsDTO = 
+                    new OrderDetailDTO(orderID, SKU, name, price, quantity, total);
+            
+            list.add(orderDetailsDTO);
+        }
+        
         return list;
     }
 
