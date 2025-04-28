@@ -32,17 +32,49 @@ public class RemoveBookFromCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RemoveBookFromCartServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RemoveBookFromCartServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        
+        try {
+            //1. Cust goes to cart place
+            HttpSession session = request.getSession(false); 
+            //Để đảm bảo rằng vùng nhớ session còn tồn tại ở server
+            //Sẽ có trường hợp, giao diện view ở client vẫn còn, nhưng session không còn do time-out
+            //=> check false, nếu có session thì remove, không có thì nghỉ
+            //Không check true vì nếu không có thì tạo mới làm chi???
+            //Muốn remove được thì session phải tồn tại
+            if (session != null) {
+                //2. Cust takes his/her cart
+                CartObject cart = (CartObject)session.getAttribute("CART");
+                if (cart != null) {
+                    //3. Cust gets all items
+                    Map<ProductDTO, Integer> items = cart.getItems();
+                    if (items != null) {
+                        //4. Cust chooses removing items
+                        String[] selectedItem = request.getParameterValues("chkItem");
+                        if (selectedItem != null) {
+                            //5. remove all selected items from cart
+                            for (String SKU : selectedItem) {
+                                cart.removeItemBySKU(SKU);
+                            }
+                            //6. update cart to cart place
+                            session.setAttribute("CART", cart);
+                        }
+                    }
+                }//end cart has existed
+            }//session is existed
+        } catch (SQLException ex){
+            log("RemoveBookFromCartServlet_SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            log("RemoveBookFromCartServlet_Naming: " + ex.getMessage());
+        } finally {
+            //7. Refresh viewing cart --> call view cart function again
+//            String urlWriting = "DispatchServlet"
+//                    + "?btAction=Buy";
+//            String urlWriting = "DispatchServlet"
+//                    + "?btAction=View Your Cart";
+            String url = MyApplicationConstant.RemoveBookFeatures.VIEW_CART_PAGE;
+            response.sendRedirect(url);
+            out.close();
         }
     }
 
